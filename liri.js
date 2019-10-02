@@ -8,52 +8,25 @@ var Spotify = require("node-spotify-api");
 
 var axios = require("axios");
 
-var omdb = require('omdb');
-
 var bandsInTown = require('bandsintown');
 
-// var moment = require("moments").config();
-
-// var spotifyReq = require('node-spotify-api');
+var moment = require("moment");
 
 // ___________________________________________________________________
 // This is the "concert-this" section
 
+// Taking in the command line arguments by first getting all the elements
 // Change array to three instead of 2
 var artist = process.argv[2];
 
 axios.get("https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp").then(
   function(response) {
     console.log(response.data[0].venue.name);
+    console.log(response.data[0].venue.city);
+    console.log(response.data[0].venue.region);
+    console.log(response.data[0].datetime);
   }
-)
-
-// axios.get("https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp").then(
-//   function(response) {
-//     // console.log(response.data.getArtistEventList);
-//   }
-// )
-
-// // Runs request through Axios to Bands in Town  
-// var venueUrl = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp";
-
-// console.log(venueUrl);
-
-// var nodeAxios = axios(venueUrl);
-
-// Taking in the command line arguments by first getting all the elements
-var artist = process.argv.slice(2).join(" ");
-
-// nodeAxios.bandsintown(EventData, function(err, data) {
-//   // console.log(JSON.stringify(data[0], null, 2));
-
-//   var artist = data[0];
-// })
-
-// axios.get(venueUrl).then(
-//   function(response) {
-//     // console.log(response.data.EventData);
-//   });
+);
 
 // ___________________________________________________________________
 //  This is the "spotify-this-song" section

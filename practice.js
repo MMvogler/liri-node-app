@@ -1,19 +1,35 @@
+//Variable stores the import key.js file
 var keys = require("./key");
 
 var Spotify = require("node-spotify-api");
 
 var axios = require("axios");
 
-var omdb = require('omdb');
-
 var bandsInTown = require('bandsintown');
 
-var artist = process.argv[2];
+var moment = require("moment");
 
-axios.get("https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp").then(
-  function(response) {
-    console.log(response.data[0].venue.name);
-  }
-)
+var song = process.argv[2];
+
+
+function mySpotify() {
+    var spotify = new Spotify({
+      id: keys.spotify.id,
+      secret: keys.spotify.secret});
+  
+      spotify.search({ type: 'track', query: song }, function(err, data) {
+        
+        if (err) {
+            return console.log(err);
+          }
+          
+        
+        console.log(data);
+        // console.log(data.body.name);
+      })
+    
+  };
+  mySpotify();
+
 
 
