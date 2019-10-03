@@ -12,6 +12,8 @@ var bandsInTown = require('bandsintown');
 
 var moment = require("moment");
 
+var omdb = require('omdb');
+
 // ___________________________________________________________________
 // This is the "concert-this" section
 
@@ -21,10 +23,12 @@ var artist = process.argv[2];
 
 axios.get("https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp").then(
   function(response) {
+
     console.log(response.data[0].venue.name);
     console.log(response.data[0].venue.city);
     console.log(response.data[0].venue.region);
     console.log(response.data[0].datetime);
+    
   }
 );
 
@@ -33,19 +37,23 @@ axios.get("https://rest.bandsintown.com/artists/" + artist + "/events?app_id=cod
 
 //Access keys information for Spotify API
 function mySpotify() {
+
   var spotify = new Spotify({
     id: keys.spotify.id,
     secret: keys.spotify.secret});
 
-    spotify.search({ type: 'track', query: 'All the Small Things' }, function(err, data) {
+    spotify.search({ type: 'track', query: song }, function(err, data) {
+      
       if (err) {
+          return console.log(err);
+        }
         
-        
-      }
+      
       console.log(data);
+      // console.log(data.body.name);
     })
   
-}
+};
 mySpotify();
 
 // var axiosWithSpotify = axios(spotifyReq);
@@ -54,86 +62,25 @@ mySpotify();
 // _____________________________________________________________________
 // This is the "movie-this"section
 
+var movie = process.argv[2];
 
- 
-// omdb.search('saw', function(err, movies) {
-//     if(err) {
-//         return console.error(err);
-//     }
- 
-//     if(movies.length < 1) {
-//         return console.log('No movies were found!');
-//     }
- 
-//     movies.forEach(function(movie) {
-//         console.log('%s (%d)', movie.title, movie.year);
-//     });
- 
-//     // Saw (2004)
-//     // Saw II (2005)
-//     // Saw III (2006)
-//     // Saw IV (2007)
-//     // ...
-// });
-
- 
-// omdb.search('saw', function(err, movies) {
-//     if(err) {
-//         return console.error(err);
-//     }
- 
-//     if(movies.length < 1) {
-//         return console.log('No movies were found!');
-//     }
- 
-//     movies.forEach(function(movie) {
-//         console.log('%s (%d)', movie.title, movie.year);
-//     });
- 
-//     // Saw (2004)
-//     // Saw II (2005)
-//     // Saw III (2006)
-//     // Saw IV (2007)
-//     // ...
-// });
- 
-// omdb.get({ title: 'Saw', year: 2004 }, true, function(err, movie) {
-//     if(err) {
-//         return console.error(err);
-//     }
- 
-//     if(!movie) {
-//         return console.log('Movie not found!');
-//     }
- 
-//     console.log('%s (%d) %d/10', movie.title, movie.year, movie.imdb.rating);
-//     console.log(movie.plot);
-
-// var nodeArgs = process.argv;
-
-// // Create an empty variable for holding the movie name
-// var movieName = "";
-
-// // Looping through node argument
-// for (var i=2; i < nodeArgs.length; i++) {
-
-//   if (i > 2 && i < nodeArgs.length) {
-//     movieName = movieName + "+" + nodeArgs[i];
-//   } else { 
-//   movieName += nodeArgs[i];
-//   }
-// }
-
-// //Access keys information for OMDB
-// movieUrl = new axios(keys.omdb);
+var movieUrl = "http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy";
 
 // console.log(movieUrl);
 
-// axios.get(movieUrl).then(
-//   function(response) {
+axios.get(movieUrl).then(
+  function(response) {
+  
+    console.log(response.data.Title);  
+    console.log(response.data.imdbRating);
+    console.log(response.data.tomatoRating);
+    console.log(response.data.Country);
+    console.log(response.data.Language);
+    console.log(response.data.Plot);
+    console.log(response.data.Actors);
 
-//   }
-// )
+  });
+
 // ________________________________________________________________
 // This is the "do-what-it-says" section 
 
